@@ -85,6 +85,123 @@ Persistent ACID-compliant state of rides, tracking their lifecycle (e.g., ASSIGN
 
 ---
 
+## 🏛 Architecture Flow
+
+Rider Request
+      │
+      ▼
+ NestJS API
+      │
+      ▼
+ Redis GEO Search
+      │
+      ▼
+ Find Nearest Drivers
+      │
+      ▼
+ Create Ride (PostgreSQL)
+      │
+      ▼
+ Driver Accept Request
+      │
+      ▼
+ Redis Distributed Lock
+      │
+      ▼
+ PostgreSQL Transaction
+      │
+      ▼
+ Ride Assigned
+---
+
+## ⭐ Additional Enhancements Implemented
+
+Beyond the assignment requirements, the following engineering improvements were implemented:
+
+### 1. Layered Concurrency Protection
+Instead of relying on a single locking mechanism, the system uses a dual-layer approach:
+
+- Redis Distributed Lock for fast fail-fast concurrency control
+- PostgreSQL Pessimistic Write Lock for transactional consistency
+- The solution guarantees that at most one driver can be assigned to a ride, even under simultaneous acceptance requests from multiple drivers across multiple application instances.
+
+This ensures race conditions are prevented even under simultaneous driver acceptance requests.
+
+### 2. ACID-Compliant Ride Assignment
+Ride assignment operations are executed inside database transactions, guaranteeing:
+
+- Atomic state transitions
+- Consistent ride assignment
+- No partial updates
+- Recovery from failures
+
+### 3. Geo-Spatial Driver Discovery
+Implemented Redis GEO indexing for efficient nearest-driver lookup with logarithmic search complexity.
+
+Benefits:
+- Fast driver discovery
+- Scalable location queries
+- Real-time location updates
+
+### 4. Idempotent Driver Acceptance
+Duplicate acceptance requests from the same driver are safely handled without creating inconsistent ride states.
+
+### 5. Retry & Timeout Workflow
+Implemented automatic timeout handling for unaccepted rides and re-allocation readiness through lifecycle state management.
+
+### 6. Dockerized Development Environment
+Complete local setup using Docker Compose:
+
+- PostgreSQL container
+- Redis container
+- Application container support
+
+Allows one-command project startup.
+
+### 7. Production Scalability Considerations
+The architecture was intentionally designed with future scalability in mind:
+
+- Message Queue integration (BullMQ/Kafka)
+- Event-driven ride processing
+- WebSocket-based real-time notifications
+- Distributed timeout scheduling
+- ETA-based routing integrations
+
+### 8. Concurrency Testing Demonstration
+Explicitly tested and documented scenarios where multiple drivers attempt to accept the same ride simultaneously.
+
+Verified outcomes:
+
+- First driver successfully acquires assignment
+- Subsequent requests receive HTTP 409 Conflict
+- No duplicate ride assignment occurs
+
+### 9. Separation of Real-Time and Persistent State
+The system separates:
+
+- Redis → Real-time operational state
+- PostgreSQL → Persistent business state
+
+This pattern closely resembles production ride-hailing architectures.
+
+---
+## ⚡ Performance Characteristics
+
+| Operation | Complexity |
+|------------|------------|
+| Driver Location Update | O(log N) |
+| Nearby Driver Search | O(log N + M) |
+| Ride Assignment | O(1) |
+| Driver Acceptance Validation | O(1) |
+| Redis Lock Acquisition | O(1) |
+
+Where:
+- N = Number of Drivers
+- M = Number of Nearby Drivers Returned
+
+  
+---
+
 ## 🏗 System Design Overview & Roadmap for Scale
 
 The current architecture provides a robust foundation for a ride-hailing core, cleanly separating ephemeral real-time state from persistent historical state. It resolves race conditions successfully via a Layered Locking Strategy (Redis Fail-Fast Lock + Postgres Pessimistic Write Lock). 
