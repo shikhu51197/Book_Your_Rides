@@ -99,19 +99,19 @@ Given more time, the system can be extended with:
 ## 📸 Execution Proof
 
 ### Create Driver
-![Create Driver](./assets/Postman_CreateDriver.png)
+![Create Driver](ride-hailing-backend/assets/Postman_CreateDriver.png)
 
 ### Update Driver Location
-![Update Driver Location](./assets/Postman_UpdateDriver.png)
+![Update Driver Location](ride-hailing-backend/assets/Postman_UpdateDriver.png)
 
 ### Request Ride
-![Create Ride](./assets/Postman_CreateRide.png)
+![Create Ride](ride-hailing-backend//assets/Postman_CreateRide.png)
 
 ### Accept Ride
-![Accept Ride](./assets/Postman_AcceptRide_data.png)
+![Accept Ride](ride-hailing-backend//assets/Postman_AcceptRide_data.png)
 
 ### Concurrency Test 
-![Multiple Drivers Try to Accept](./assets/Postman_MultipleDriver_Try.png)     
+![Multiple Drivers Try to Accept](ride-hailing-backend//assets/Postman_MultipleDriver_Try.png)     
 
 
 
