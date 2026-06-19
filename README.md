@@ -4,10 +4,19 @@ A backend service that simulates the core workflow of a ride-hailing platform, s
 
 ## 🛠 Tech Stack
 
-- NestJS
-- PostgreSQL
-- Redis (GEO + Distributed Locking)
-- Docker
+- **NestJS**: A progressive Node.js framework used for building an efficient and scalable server-side backend architecture.
+
+- **PostgreSQL**: Used as the primary relational database to ensure ACID compliance, maintain transactional consistency, and handle pessimistic locking to guarantee safe and accurate ride assignments.
+
+
+
+- **Redis**: Utilized for:
+  - **GEO Indexing**: To perform fast and efficient spatial queries for nearby driver discovery.
+  - **Distributed Locking**: To provide a fail-fast mechanism that prevents race conditions when multiple drivers try to accept the same ride concurrently.
+
+
+
+- **Docker**: Used to containerize the application along with its dependencies (PostgreSQL and Redis images). It simplifies the setup process, providing a one-command, reproducible local development environment without the need for manual installations.
 
 ---
 
@@ -113,7 +122,11 @@ Given more time, the system can be extended with:
 ### Concurrency Test 
 ![Multiple Drivers Try to Accept](ride-hailing-backend//assets/Postman_MultipleDriver_Try.png)     
 
+### PostgreSQL Driver Data
+![PostgreSQL Driver Data](ride-hailing-backend/assets/Postgresql_driver_data.png)
 
+### PostgreSQL Rides Data
+![PostgreSQL Rides Data](ride-hailing-backend/assets/Postgresql_rides_data.png)
 
-
-
+### Redis Data
+![Redis Data](ride-hailing-backend/assets/redis_data.png)
