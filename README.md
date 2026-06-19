@@ -130,3 +130,6 @@ Given more time, the system can be extended with:
 
 ### Redis Data
 ![Redis Data](ride-hailing-backend/assets/redis_data.png)
+
+### Docker Containers
+![Docker Containers](ride-hailing-backend/assets/Docker_Data.png)
