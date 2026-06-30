@@ -9,4 +9,5 @@ export enum RideStatus {
   SEARCHING = 'SEARCHING',
   ASSIGNED = 'ASSIGNED',
   TIMEOUT = 'TIMEOUT',
+  COMPLETED = 'COMPLETED',
 }

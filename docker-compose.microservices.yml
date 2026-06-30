@@ -1,0 +1,62 @@
+version: '3.8'
+
+# Phase 7: Microservices Architecture Blueprint
+# This docker-compose file demonstrates how the monolith is structured when broken down into microservices.
+
+services:
+  api-gateway:
+    image: nestjs/api-gateway
+    ports:
+      - "3000:3000"
+    environment:
+      - RIDES_SERVICE_URL=tcp://ride-service:3001
+      - DRIVERS_SERVICE_URL=tcp://driver-service:3002
+      - PAYMENTS_SERVICE_URL=tcp://payment-service:3003
+    depends_on:
+      - ride-service
+      - driver-service
+      - payment-service
+
+  ride-service:
+    image: nestjs/ride-service
+    environment:
+      - REDIS_HOST=redis
+      - DATABASE_URL=postgres://user:pass@postgres:5432/rides
+      - NOTIFICATION_SERVICE_URL=tcp://notification-service:3004
+    depends_on:
+      - redis
+      - postgres
+
+  driver-service:
+    image: nestjs/driver-service
+    environment:
+      - REDIS_HOST=redis
+      - DATABASE_URL=postgres://user:pass@postgres:5432/drivers
+    depends_on:
+      - redis
+      - postgres
+
+  payment-service:
+    image: nestjs/payment-service
+    environment:
+      - DATABASE_URL=postgres://user:pass@postgres:5432/payments
+
+  notification-service:
+    image: nestjs/notification-service
+    environment:
+      - REDIS_HOST=redis
+    # Consumes events from Redis Pub/Sub
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+
+  postgres:
+    image: postgres:13
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=pass
+      - POSTGRES_DB=rides
+    ports:
+      - "5432:5432"

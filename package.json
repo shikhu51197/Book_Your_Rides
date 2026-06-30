@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "@nestjs/bullmq": "^11.0.4",
+    "@nestjs/platform-socket.io": "^11.1.27",
+    "@nestjs/websockets": "^11.1.27",
+    "axios": "^1.18.1",
+    "bullmq": "^5.79.1",
+    "socket.io": "^4.8.3"
+  }
+}

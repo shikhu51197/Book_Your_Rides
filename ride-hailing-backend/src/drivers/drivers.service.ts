@@ -5,6 +5,7 @@ import { Driver } from './driver.entity';
 import { GeoService } from '../redis/geo.service';
 import { UpdateLocationDto } from '../common/dtos/update-location.dto';
 import { DriverStatus } from '../common/enums';
+import { DriversGateway } from './drivers.gateway';
 
 @Injectable()
 export class DriversService {
@@ -12,6 +13,7 @@ export class DriversService {
     @InjectRepository(Driver)
     private readonly driverRepository: Repository<Driver>,
     private readonly geoService: GeoService,
+    private readonly driversGateway: DriversGateway,
   ) {}
 
   async createDriver(name: string): Promise<Driver> {
@@ -37,6 +39,7 @@ export class DriversService {
     // Update Redis GEO
     if (driver.status === DriverStatus.ONLINE) {
       await this.geoService.addDriverLocation(driver.id, driver.current_lat, driver.current_lng);
+      this.driversGateway.notifyLocationUpdated(driver);
     } else {
       // OFFLINE or BUSY
       await this.geoService.removeDriverLocation(driver.id);

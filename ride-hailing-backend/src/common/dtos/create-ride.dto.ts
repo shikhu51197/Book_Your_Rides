@@ -9,4 +9,10 @@ export class CreateRideDto {
 
   @IsNumber()
   pickupLng: number;
+
+  @IsNumber()
+  dropLat: number;
+
+  @IsNumber()
+  dropLng: number;
 }

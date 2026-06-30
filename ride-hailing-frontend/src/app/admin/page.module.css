@@ -1,0 +1,158 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding: 2rem;
+  gap: 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.backBtn {
+  color: var(--muted);
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.backBtn:hover {
+  color: var(--foreground);
+}
+
+.adminBadge {
+  background: rgba(239, 68, 68, 0.2);
+  color: var(--destructive);
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  font-size: 0.9rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--foreground);
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  flex: 1;
+}
+
+.panel {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  height: 600px;
+}
+
+.panelHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--card-border);
+  padding-bottom: 1rem;
+}
+
+.panelHeader h2 {
+  font-size: 1.25rem;
+  color: var(--accent);
+}
+
+.liveIndicator {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: bold;
+  color: var(--success);
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  background: var(--success);
+  border-radius: 50%;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.5); opacity: 0.5; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.logContainer {
+  flex: 1;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  padding: 1rem;
+  overflow-y: auto;
+  font-family: monospace;
+  font-size: 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.logContainer::-webkit-scrollbar {
+  width: 6px;
+}
+
+.logContainer::-webkit-scrollbar-thumb {
+  background: var(--secondary);
+  border-radius: 3px;
+}
+
+.emptyLog {
+  color: var(--muted);
+  font-style: italic;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.logEntry {
+  display: flex;
+  gap: 1rem;
+  font-family: monospace;
+  font-size: 0.9rem;
+}
+
+.timestamp {
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.message {
+  color: #e2e8f0;
+}
+
+.mapPanel {
+  min-height: 400px;
+}
+
+.adminMapContainer {
+  height: 350px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--card-border);
+  margin-top: 1rem;
+}

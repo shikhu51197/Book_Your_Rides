@@ -16,8 +16,8 @@ async function runSimulation() {
     driverIds.push(driver.id);
     
     // Put driver online with location
-    const lat = 40.7128 + (Math.random() * 0.01 - 0.005);
-    const lng = -74.0060 + (Math.random() * 0.01 - 0.005);
+    const lat = 40.7128;
+    const lng = -74.0060;
     await fetch(`${baseUrl}/drivers/${driver.id}/location`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

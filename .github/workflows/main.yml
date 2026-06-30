@@ -1,0 +1,41 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-test-backend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./ride-hailing-backend
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js 18.x
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18.x
+        cache: 'npm'
+        cache-dependency-path: ./ride-hailing-backend/package-lock.json
+    - run: npm ci
+    - run: npm run build
+    - run: npm run test
+
+  build-and-test-frontend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./ride-hailing-frontend
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js 18.x
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18.x
+        cache: 'npm'
+        cache-dependency-path: ./ride-hailing-frontend/package-lock.json
+    - run: npm ci
+    - run: npm run build

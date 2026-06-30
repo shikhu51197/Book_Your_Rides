@@ -15,4 +15,9 @@ export class RidesController {
   async acceptRide(@Param('rideId') rideId: string, @Body('driverId') driverId: string) {
     return this.ridesService.acceptRide(rideId, driverId);
   }
+
+  @Post(':rideId/complete')
+  async completeRide(@Param('rideId') rideId: string, @Body('driverId') driverId: string) {
+    return this.ridesService.completeRide(rideId, driverId);
+  }
 }
