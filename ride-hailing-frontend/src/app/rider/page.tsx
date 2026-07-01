@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { io, Socket } from "socket.io-client";
+import { io } from "socket.io-client";
 import { Ride } from "../../types";
 import styles from "./page.module.css";
 import Link from "next/link";
@@ -12,7 +12,6 @@ const Map = dynamic(() => import("../../components/Map"), { ssr: false });
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "http://localhost:3000";
 
 export default function RiderDashboard() {
-  const [socket, setSocket] = useState<Socket | null>(null);
   const [activeRide, setActiveRide] = useState<Ride | null>(null);
   const [isRequesting, setIsRequesting] = useState(false);
   const [riderId, setRiderId] = useState("");
@@ -23,6 +22,7 @@ export default function RiderDashboard() {
   const [paymentSuccess, setPaymentSuccess] = useState(false);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setRiderId(`rider-${Math.floor(Math.random() * 1000)}`);
   }, []);
 
@@ -30,7 +30,6 @@ export default function RiderDashboard() {
     if (!riderId) return;
 
     const newSocket = io(API_BASE);
-    setSocket(newSocket);
 
     newSocket.on("ride_status_updated", (ride: Ride) => {
       // Only update if it's our ride

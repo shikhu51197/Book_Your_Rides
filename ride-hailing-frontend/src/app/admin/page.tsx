@@ -17,14 +17,13 @@ interface AdminLog {
 }
 
 export default function AdminDashboard() {
-  const [socket, setSocket] = useState<Socket | null>(null);
+
   const [logs, setLogs] = useState<AdminLog[]>([]);
   const [drivers, setDrivers] = useState<Record<string, { lat: number, lng: number, name: string }>>({});
   const logContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const newSocket = io(API_BASE);
-    setSocket(newSocket);
 
     const addLog = (message: string) => {
       setLogs(prev => [...prev, {
@@ -38,15 +37,15 @@ export default function AdminDashboard() {
       addLog(message);
     });
 
-    newSocket.on("ride_requested", (data: any) => {
+    newSocket.on("ride_requested", (data: { ride: { id: string }, candidates: string[] }) => {
       addLog(`Ride ${data.ride.id} requested. Candidates: ${data.candidates.length}`);
     });
 
-    newSocket.on("ride_status_updated", (ride: any) => {
+    newSocket.on("ride_status_updated", (ride: { id: string, status: string }) => {
       addLog(`Ride ${ride.id} status changed to ${ride.status}`);
     });
 
-    newSocket.on("driver_location_updated", (driver: any) => {
+    newSocket.on("driver_location_updated", (driver: { id: string, current_lat: number, current_lng: number, name: string }) => {
       setDrivers(prev => ({
         ...prev,
         [driver.id]: { lat: driver.current_lat, lng: driver.current_lng, name: driver.name }

@@ -25,6 +25,7 @@ export default function DriverDashboard() {
 
   useEffect(() => {
     const newSocket = io(API_BASE);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setSocket(newSocket);
 
     newSocket.on("ride_requested", (data: IncomingRequest) => {
@@ -90,8 +91,8 @@ export default function DriverDashboard() {
       } else {
         setAcceptResult({ success: false, message: data.message || "Someone else accepted the ride." });
       }
-    } catch (err: any) {
-      setAcceptResult({ success: false, message: err.message });
+    } catch (err: unknown) {
+      setAcceptResult({ success: false, message: (err as Error).message });
     } finally {
       setIsAccepting(false);
       setIncomingRequest(null);
@@ -115,8 +116,8 @@ export default function DriverDashboard() {
         const errData = await res.json();
         setAcceptResult({ success: false, message: errData.message });
       }
-    } catch (err: any) {
-      setAcceptResult({ success: false, message: err.message });
+    } catch (err: unknown) {
+      setAcceptResult({ success: false, message: (err as Error).message });
     } finally {
       setIsCompleting(false);
     }
